@@ -1,0 +1,173 @@
+<html>
+<head>	<title>Form Practice</title>
+</head>
+<body>
+	<h1>Please Provide the Following Information</h1>
+	*fields marked with an asterisk are required<br><br>
+	<form method="post" action="" name="form1">
+		First Name*: <input type="text" name="firstName" id="fName"><br>
+		Last Name*: <input type="text" name="lastName" id="lName"><br>		
+		<div id="gender">
+			Gender*: <input type="radio" name="gender" value="M">Male 
+			<input type="radio" name="gender" value="F">Female <br>		
+		</div> 		
+		Choose Your Favorite Types of Movies (check all that applies):
+		<input type="checkbox" name="movies" value="comedy"> Comedy
+		<input type="checkbox" name="movies" value="drama"> Drama
+		<input type="checkbox" name="movies" value="action"> Action
+		<input type="checkbox" name="movies" value="horror"> Horror<br>	
+		Please select your state:
+		<select name="state" id="state">
+			<option value="AL">Alabama</option>
+			<option value="AK">Alaska</option>
+			<option value="AZ">Arizona</option>
+			<option value="AR">Arkansas</option>
+			<option value="CA">California</option>
+			<option value="CO">Colorado</option>
+			<option value="CT">Connecticut</option>
+			<option value="DE">Delaware</option>
+			<option value="DC">District Of Columbia</option>
+			<option value="FL">Florida</option>
+			<option value="GA">Georgia</option>
+			<option value="HI">Hawaii</option>
+			<option value="ID">Idaho</option>
+			<option value="IL">Illinois</option>
+			<option value="IN">Indiana</option>
+			<option value="IA">Iowa</option>
+			<option value="KS">Kansas</option>
+			<option value="KY">Kentucky</option>
+			<option value="LA">Louisiana</option>
+			<option value="ME">Maine</option>
+			<option value="MD">Maryland</option>
+			<option value="MA">Massachusetts</option>
+			<option value="MI">Michigan</option>
+			<option value="MN">Minnesota</option>
+			<option value="MS">Mississippi</option>
+			<option value="MO">Missouri</option>
+			<option value="MT">Montana</option>
+			<option value="NE">Nebraska</option>
+			<option value="NV">Nevada</option>
+			<option value="NH">New Hampshire</option>
+			<option value="NJ">New Jersey</option>
+			<option value="NM">New Mexico</option>
+			<option value="NY">New York</option>
+			<option value="NC">North Carolina</option>
+			<option value="ND">North Dakota</option>
+			<option value="OH">Ohio</option>
+			<option value="OK">Oklahoma</option>
+			<option value="OR">Oregon</option>
+			<option value="PA">Pennsylvania</option>
+			<option value="RI">Rhode Island</option>
+			<option value="SC">South Carolina</option>
+			<option value="SD">South Dakota</option>
+			<option value="TN">Tennessee</option>
+			<option value="TX" selected="true">Texas</option>
+			<option value="UT">Utah</option>
+			<option value="VT">Vermont</option>
+			<option value="VA">Virginia</option>
+			<option value="WA">Washington</option>
+			<option value="WV">West Virginia</option>
+			<option value="WI">Wisconsin</option>
+			<option value="WY">Wyoming</option>
+		</select><br>
+		<div id="privacyPolicy" >
+			Agree to privacy policy* <input type="checkbox" name="privacy" value="yes" >	<br><br>		
+		</div>		
+		<input type="submit" name="btnCheckForm">
+		<input type="reset">		
+	</form>
+
+    <script>
+        var myForm = document.form1;
+        function btnCheckFormClick(e) 
+			{	var firstName = myForm.firstName;
+				var lastName = myForm.lastName;
+				
+				var numberOfControls = myForm.length;
+				var favMovieChecked = "";
+				var agreeToPrivacyPolicy = "privacyPolicy";
+
+				for (var index = 0; index < numberOfControls; index++) 
+					{	var element = myForm[index];
+
+						if (element.type == "checkbox") 
+							{	if (element.checked) 
+									{ 	if (element.value == "yes")
+										{ 	agreeToPrivacyPolicy = "agree";
+
+										}
+										else
+										{   favMovieChecked = favMovieChecked + element.value + "\n";
+										}
+									}
+							}
+					}		
+				
+				var selectedOne=document.getElementById("state").selectedIndex;
+	
+				var genderSelected = getSelectedGender();
+				var gender = genderSelection(genderSelected);
+
+				var validateData = [	[firstName.value, lastName.value, gender, agreeToPrivacyPolicy],
+										["fName", "lName" ,"gender", "privacyPolicy"]
+									]
+			  
+				var formValidationStatus = formValidation(validateData);
+				
+				if (formValidationStatus == "yes")
+					{	alert("Hello " + firstName.value + " " + lastName.value +"\n"
+							+ "You have entered in the following information: " +"\n"
+							+ "Gender: " + gender + "\n"
+							+ "Favorite Movie Types:\n " + favMovieChecked //+ "\n"
+							+ "Your State: " + document.form1.state[selectedOne].text + "\n"
+							+ "You " + agreeToPrivacyPolicy + " to the privacy policy."
+						);
+					}				
+					else
+					{	alert("Please complete all required fields");
+					}
+				}
+
+        function getSelectedGender() 
+			{	var radios = myForm.gender;
+				for (var index = 0; index < radios.length; index++) 
+					{	if (radios[index].checked) 
+							{	return radios[index].value;
+							}
+					}
+				return "";
+			}
+
+		function formValidation(formData) 
+			{	var formPassedValidation = "yes"
+				for (var i=0; i<5;i++)
+					{	if (formData[0][i]=="" || formData[0][i]=="privacyPolicy")
+							{	var formError = document.getElementById(formData[1][i]); 
+								formError.style.border = "2px solid red";  						
+								formPassedValidation ="no";
+							}
+					}
+
+			return formPassedValidation;
+			}
+			
+		function genderSelection(genderSelected)
+			{	if (genderSelected =="F")
+					{	genderSelected = "Female"
+						return genderSelected;
+					}
+				else if(genderSelected =="M")
+					{	genderSelected = "Male"
+						return genderSelected;
+					}
+				else 
+					{	return genderSelected;
+					}
+			}
+			
+        myForm.btnCheckForm.addEventListener("click", btnCheckFormClick);
+    </script>
+</body>
+</html>
+</body>
+</html>

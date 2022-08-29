@@ -1,0 +1,69 @@
+<html>
+<head>	<title>Drag and Drop State Quiz</title>
+</head>
+<body>
+	<h1 style="text-align:center">Drag the State Name to the State Picture</h1>
+	<table width="100%">
+		<tr>	<td><h1 id="Baton Rouge" draggable="true" value="Baton Rouge">Louisiana</h1></td>
+				<td data-drop-target="true"><img src="tx.gif" height="246" width="260" alt="altTexas"
+												id="imgTX" value="valueLA"	value="imgTX"></td>
+		</tr>
+		<tr>
+		<td	>	<h1 id="Oklahoma City" draggable="true" value="Oklahoma City">Oklahoma</h1></td>
+				<td data-drop-target="true"><img src="oklahoma.jpg" height="180" width="280" alt="altOklahoma"
+												id="imgOK"	id="dropZone" value="imgOK"></td>
+		</tr>
+		<tr>	<td><h1 id="Austin" draggable="true" value="Austin">Texas</h1></td>
+				<td data-drop-target="true"><img src="louisiana.png" height="246" width="260" alt="altLouisiana"
+												id="imgLA" value="imgLA"></td>
+		</tr>
+	</table>
+	
+    <script>
+		function handleDragStart(e) 
+			{	e.dataTransfer.setData("id", this.id);
+				e.dataTransfer.setData("textContent", this.textContent);
+			}
+	
+		function handleOverDrop(e) 
+			{	e.preventDefault();
+				if (e.type != "drop") 
+				{	return;
+				}
+				
+				var el = e.target;
+				var elStr = el.src.substr(el.src.lastIndexOf("/")+1).substring(0,1);
+				
+				var draggedId = e.dataTransfer.getData("id");
+				var draggedValue1 = e.dataTransfer.getData("textContent");
+				var draggedValue = draggedValue1.toLowerCase().substring(0,1);
+				var draggedEl = document.getElementById(draggedId);
+		
+				if (elStr != draggedValue)
+				{	alert("Incorrect state. Please try again.");
+				}
+				else
+				{	alert("Correct state.  The capital of " + draggedValue1 + " is " + draggedId + ".") ;
+					draggedEl.parentNode.removeChild(draggedEl);
+					this.appendChild(draggedEl);
+					this.className = "";
+				}
+			}
+				
+		var draggable = document.querySelectorAll("[draggable]");
+		var targets = document.querySelectorAll("[data-drop-target]");	
+		
+		for (var i = 0; i < draggable.length; i++) 
+			{	draggable[i].addEventListener("dragstart", handleDragStart);
+				draggable[i].addEventListener("dragstart", handleDragStart);
+				draggable[i].addEventListener("drop", handleOverDrop);
+			}		
+	    
+		for (i = 0; i < targets.length; i++) 
+			{	targets[i].addEventListener("dragover", handleOverDrop);
+				targets[i].addEventListener("drop", handleOverDrop);
+			}
+	</script>	
+	
+</body>
+</html>
